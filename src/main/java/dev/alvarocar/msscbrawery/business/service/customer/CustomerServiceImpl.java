@@ -11,7 +11,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto getCustomerById(UUID customerId) {
         return CustomerDto.builder()
                 .customerID(UUID.randomUUID())
-                .nombre("Alvaro")
+                .name("Alvaro")
                 .build();
     }
 
