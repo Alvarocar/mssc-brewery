@@ -28,7 +28,7 @@ public class CustomerController {
     public ResponseEntity handlepost(@RequestBody CustomerDto customerDto){
         CustomerDto newCustomer = customerService.createCustomer(customerDto);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("location", "api/v1/customer/"+newCustomer.getCustomerID().toString());
+        httpHeaders.add("location", "api/v1/customer/"+newCustomer.getId().toString());
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
@@ -38,7 +38,7 @@ public class CustomerController {
          return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("${cusomerId)")
+    @DeleteMapping("/{customerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable("customerId") UUID customerId){
         customerService.deleteCustomer(customerId);
