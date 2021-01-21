@@ -5,13 +5,18 @@ import dev.alvarocar.msscbrawery.model.dto.CustomerDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("api/v1/customer")
-public class CustomerController {
+public class CustomerController{
 
     private final CustomerService customerService;
 
@@ -20,21 +25,21 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable("customerId") UUID customerId){
+    public ResponseEntity<CustomerDto> getCustomer(@NotNull @PathVariable("customerId") UUID customerId){
         return new ResponseEntity<>(customerService.getCustomerById(customerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity handlepost(@RequestBody CustomerDto customerDto){
+    public ResponseEntity handlepost(@Valid @RequestBody CustomerDto customerDto){
         CustomerDto newCustomer = customerService.createCustomer(customerDto);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("location", "api/v1/customer/"+newCustomer.getId().toString());
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity handleupdate(@RequestBody CustomerDto customerDto){
-        customerService.updateCustomer(customerDto);
+    @PutMapping("/{id}")
+    public ResponseEntity handleupdate(@NotNull @PathVariable("id") UUID id, @Valid @RequestBody CustomerDto customerDto){
+        customerService.updateCustomer(id, customerDto);
          return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

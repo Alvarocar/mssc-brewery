@@ -23,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(CustomerDto customerDto) {
+    public void updateCustomer(UUID id, CustomerDto customerDto) {
         //Update
     }
 
